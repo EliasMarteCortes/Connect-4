@@ -253,8 +253,6 @@ function startGame() {
     board = createBoard();
     gameOver = false;
     playerTurn = true;
-    scores = { player: 0, ai: 0 };
-    updateScores();
     renderBoard();
     setStatus('YOUR TURN', 'player-turn');
     setActiveCard('player');
@@ -328,6 +326,10 @@ document.getElementById('board').addEventListener('click', function(e) {
 });
 
 document.getElementById('restart-btn').addEventListener('click', startGame);
+document.getElementById('reset-scores-btn').addEventListener('click', function() {
+    scores = { player: 0, ai: 0 };
+    updateScores();
+});
 
 updateScores();
 startGame();
