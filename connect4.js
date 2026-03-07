@@ -331,5 +331,16 @@ document.getElementById('reset-scores-btn').addEventListener('click', function()
     updateScores();
 });
 
+document.querySelectorAll('.diff-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.diff-btn').forEach(function(b) {
+            b.classList.remove('selected');
+        });
+        btn.classList.add('selected');
+        searchDepth = parseInt(btn.dataset.depth);
+        startGame();
+    });
+});
+
 updateScores();
 startGame();
