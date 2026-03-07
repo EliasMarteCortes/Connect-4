@@ -253,6 +253,8 @@ function startGame() {
     board = createBoard();
     gameOver = false;
     playerTurn = true;
+    scores = { player: 0, ai: 0 };
+    updateScores();
     renderBoard();
     setStatus('YOUR TURN', 'player-turn');
     setActiveCard('player');
