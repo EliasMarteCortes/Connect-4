@@ -90,6 +90,78 @@ function checkWinner(b, piece) {
     return null;
 }
 
+function getValidColumns(b) {
+    let valid = [];
+    for (let c = 0; c < COLS; c++) {
+        if (isValidCol(b, c)) valid.push(c);
+    }
+    return valid;
+}
+
+function scoreWindow(window, piece) {
+    let score = 0;
+    let opp = piece === AI ? PLAYER : AI;
+
+    let pieceCount = window.filter(x => x === piece).length;
+    let emptyCount = window.filter(x => x === 0).length;
+    let oppCount = window.filter(x => x === opp).length;
+
+    if (pieceCount === 4) {
+        score += 100;
+    } else if (pieceCount === 3 && emptyCount === 1) {
+        score += 5;
+    } else if (pieceCount === 2 && emptyCount === 2) {
+        score += 2;
+    }
+
+    if (oppCount === 3 && emptyCount === 1) {
+        score -= 4;
+    }
+
+    return score;
+}
+
+function scoreBoard(b) {
+    let score = 0;
+
+    let centerCol = [];
+    for (let r = 0; r < ROWS; r++) {
+        centerCol.push(b[r][3]);
+    }
+    let centerCount = centerCol.filter(x => x === AI).length;
+    score += centerCount * 3;
+
+    for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS - 3; c++) {
+            let window = [b[r][c], b[r][c+1], b[r][c+2], b[r][c+3]];
+            score += scoreWindow(window, AI);
+        }
+    }
+
+    for (let c = 0; c < COLS; c++) {
+        for (let r = 0; r < ROWS - 3; r++) {
+            let window = [b[r][c], b[r+1][c], b[r+2][c], b[r+3][c]];
+            score += scoreWindow(window, AI);
+        }
+    }
+
+    for (let r = 0; r < ROWS - 3; r++) {
+        for (let c = 0; c < COLS - 3; c++) {
+            let window = [b[r][c], b[r+1][c+1], b[r+2][c+2], b[r+3][c+3]];
+            score += scoreWindow(window, AI);
+        }
+    }
+
+    for (let r = 3; r < ROWS; r++) {
+        for (let c = 0; c < COLS - 3; c++) {
+            let window = [b[r][c], b[r-1][c+1], b[r-2][c+2], b[r-3][c+3]];
+            score += scoreWindow(window, AI);
+        }
+    }
+
+    return score;
+}
+
 function handleClick(col) {
     if (!isValidCol(board, col)) return;
 
