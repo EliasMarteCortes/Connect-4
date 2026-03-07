@@ -287,7 +287,7 @@ function handleClick(col) {
 
     playerTurn = false;
     setActiveCard('ai');
-    setStatus('<span class="thinking-dots">AI THINKING<span>.</span><span>.</span><span>.</span></span>', 'thinking');
+    setStatus('AI THINKING', 'thinking');
     document.getElementById('board').classList.add('locked');
 
     setTimeout(function() {
