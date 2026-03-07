@@ -1,121 +1,198 @@
 :root {
-  --bg: #0a0a0f;
-  --panel: #0f0f1a;
-  --accent: #00e5ff;
-  --text: #c8d8ff;
-  --text-dim: #5566aa;
-  --player: #ff3c5f;
-  --player-glow: rgba(255, 60, 95, 0.6);
-  --ai: #ffd700;
-  --ai-glow: rgba(255, 215, 0, 0.6);
+    --bg: #0a0a0f;
+    --panel: #0f0f1a;
+    --accent: #00e5ff;
+    --text: #c8d8ff;
+    --text-dim: #5566aa;
+    --player: #ff3c5f;
+    --player-glow: rgba(255, 60, 95, 0.6);
+    --ai: #ffd700;
+    --ai-glow: rgba(255, 215, 0, 0.6);
 }
 
 * { 
-  box-sizing: border-box; 
-  margin: 0; 
-  padding: 0; 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
 }
 
 body {
-  background: var(--bg);
-  font-family: 'Share Tech Mono', monospace;
-  color: var(--text);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+    background: var(--bg);
+    font-family: 'Share Tech Mono', monospace;
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 24px;
-  max-width: 700px;
-  width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    max-width: 700px;
+    width: 100%;
 }
 
 header { 
-  text-align: center; 
+    text-align: center; 
 }
 
 h1 {
-  font-family: 'Orbitron', sans-serif;
-  font-weight: 900;
-  font-size: clamp(1.8rem, 5vw, 3rem);
-  letter-spacing: 0.12em;
-  color: #fff;
-  text-shadow: 0 0 20px var(--accent), 0 0 60px rgba(0, 229, 255, 0.3);
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    letter-spacing: 0.12em;
+    color: #fff;
+    text-shadow: 0 0 20px var(--accent), 0 0 60px rgba(0, 229, 255, 0.3);
 }
 
 .subtitle {
-  font-size: 0.75rem;
-  color: var(--text-dim);
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  margin-top: 6px;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-top: 6px;
 }
 
 .scoreboard {
-  display: flex;
-  gap: 16px;
-  align-items: center;
+    display: flex;
+    gap: 16px;
+    align-items: center;
 }
 
 .score-card {
-  background: var(--panel);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: 10px;
-  padding: 12px 20px;
-  text-align: center;
-  min-width: 100px;
-  transition: border-color 0.3s, box-shadow 0.3s;
+    background: var(--panel);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 12px 20px;
+    text-align: center;
+    min-width: 100px;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .score-card.active-player {
-  border-color: var(--player);
-  box-shadow: 0 0 16px var(--player-glow);
+    border-color: var(--player);
+    box-shadow: 0 0 16px var(--player-glow);
 }
 
 .score-card.active-ai {
-  border-color: var(--ai);
-  box-shadow: 0 0 16px var(--ai-glow);
+    border-color: var(--ai);
+    box-shadow: 0 0 16px var(--ai-glow);
 }
 
 .score-card .label {
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  color: var(--text-dim);
-  text-transform: uppercase;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
 }
 
 .score-card .name {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 700;
-  margin: 2px 0;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin: 2px 0;
 }
 
 .score-card.active-player .name { 
-  color: var(--player); 
+    color: var(--player); 
 }
 .score-card.active-ai .name { 
-  color: var(--ai); 
+    color: var(--ai); 
 }
 
 .score-card .score-num {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.8rem;
-  font-weight: 900;
-  color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #fff;
 }
 
 .vs-badge {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--text-dim);
-  letter-spacing: 0.1em;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+}
+
+.status-bar {
+    background: var(--panel);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 8px;
+    padding: 10px 24px;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
+    text-align: center;
+    min-width: 280px;
+    color: var(--accent);
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-bar.thinking { 
+    color: var(--ai); 
+    border-color: rgba(255, 215, 0, 0.3); 
+}
+.status-bar.player-turn { 
+    color: var(--player); 
+    border-color: rgba(255, 60, 95, 0.3); 
+}
+.status-bar.win {
+    color: #fff;
+    background: rgba(0, 229, 255, 0.08);
+    border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+}
+
+button {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: var(--panel);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+button:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+button.primary {
+    background: rgba(0, 229, 255, 0.08);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.difficulty-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+}
+
+.diff-btn { 
+    padding: 6px 14px; font-size: 0.65rem; 
+}
+
+.diff-btn.selected {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: var(--ai);
+    color: var(--ai);
 }
