@@ -55,12 +55,53 @@ function placePiece(b, row, col, piece) {
     b[row][col] = piece;
 }
 
+function checkWinner(b, piece) {
+    for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS - 3; c++) {
+            if (b[r][c] === piece && b[r][c+1] === piece && b[r][c+2] === piece && b[r][c+3] === piece) {
+                return [[r,c],[r,c+1],[r,c+2],[r,c+3]];
+            }
+        }
+    }
+
+    for (let r = 0; r < ROWS - 3; r++) {
+        for (let c = 0; c < COLS; c++) {
+            if (b[r][c] === piece && b[r+1][c] === piece && b[r+2][c] === piece && b[r+3][c] === piece) {
+                return [[r,c],[r+1,c],[r+2,c],[r+3,c]];
+            }
+        }
+    }
+
+    for (let r = 0; r < ROWS - 3; r++) {
+        for (let c = 0; c < COLS - 3; c++) {
+            if (b[r][c] === piece && b[r+1][c+1] === piece && b[r+2][c+2] === piece && b[r+3][c+3] === piece) {
+                return [[r,c],[r+1,c+1],[r+2,c+2],[r+3,c+3]];
+            }
+        }
+    }
+
+    for (let r = 3; r < ROWS; r++) {
+        for (let c = 0; c < COLS - 3; c++) {
+            if (b[r][c] === piece && b[r-1][c+1] === piece && b[r-2][c+2] === piece && b[r-3][c+3] === piece) {
+                return [[r,c],[r-1,c+1],[r-2,c+2],[r-3,c+3]];
+            }
+        }
+    }
+    return null;
+}
+
 function handleClick(col) {
     if (!isValidCol(board, col)) return;
 
     let row = getOpenRow(board, col);
     placePiece(board, row, col, PLAYER);
     renderBoard();
+
+    let win = checkWinner(board, PLAYER);
+    if (win) {
+        renderBoard(win);
+        alert('You win!');
+    }
 }
 
 document.getElementById('board').addEventListener('click', function(e) {
