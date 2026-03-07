@@ -4,9 +4,17 @@
   --accent: #00e5ff;
   --text: #c8d8ff;
   --text-dim: #5566aa;
+  --player: #ff3c5f;
+  --player-glow: rgba(255, 60, 95, 0.6);
+  --ai: #ffd700;
+  --ai-glow: rgba(255, 215, 0, 0.6);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+}
 
 body {
   background: var(--bg);
@@ -29,7 +37,9 @@ body {
   width: 100%;
 }
 
-header { text-align: center; }
+header { 
+  text-align: center; 
+}
 
 h1 {
   font-family: 'Orbitron', sans-serif;
@@ -46,4 +56,66 @@ h1 {
   letter-spacing: 0.25em;
   text-transform: uppercase;
   margin-top: 6px;
+}
+
+.scoreboard {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.score-card {
+  background: var(--panel);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  padding: 12px 20px;
+  text-align: center;
+  min-width: 100px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.score-card.active-player {
+  border-color: var(--player);
+  box-shadow: 0 0 16px var(--player-glow);
+}
+
+.score-card.active-ai {
+  border-color: var(--ai);
+  box-shadow: 0 0 16px var(--ai-glow);
+}
+
+.score-card .label {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.score-card .name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin: 2px 0;
+}
+
+.score-card.active-player .name { 
+  color: var(--player); 
+}
+.score-card.active-ai .name { 
+  color: var(--ai); 
+}
+
+.score-card .score-num {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #fff;
+}
+
+.vs-badge {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
 }
