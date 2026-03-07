@@ -162,6 +162,65 @@ function scoreBoard(b) {
     return score;
 }
 
+function isTerminalNode(b) {
+    return checkWinner(b, PLAYER) !== null || checkWinner(b, AI) !== null || getValidColumns(b).length === 0;
+}
+
+function minimax(b, depth, maximizing) {
+    let validCols = getValidColumns(b);
+
+    if (isTerminalNode(b)) {
+        if (checkWinner(b, AI)) return { score: 1000000 };
+        if (checkWinner(b, PLAYER)) return { score: -1000000 };
+        return { score: 0 }; 
+    }
+
+    if (depth === 0) {
+        return { score: scoreBoard(b) };
+    }
+
+    if (maximizing) {
+        let bestScore = -Infinity;
+        let bestCol = validCols[0];
+
+    for (let i = 0; i < validCols.length; i++) {
+        let col = validCols[i];
+        let row = getOpenRow(b, col);
+
+        let boardCopy = b.map(r => [...r]);
+        placePiece(boardCopy, row, col, AI);
+
+        let result = minimax(boardCopy, depth - 1, false);
+
+        if (result.score > bestScore) {
+            bestScore = result.score;
+            bestCol = col;
+        }
+    }
+    return { col: bestCol, score: bestScore };
+
+    } else {
+        let bestScore = Infinity;
+        let bestCol = validCols[0];
+
+    for (let i = 0; i < validCols.length; i++) {
+        let col = validCols[i];
+        let row = getOpenRow(b, col);
+
+        let boardCopy = b.map(r => [...r]);
+        placePiece(boardCopy, row, col, PLAYER);
+
+        let result = minimax(boardCopy, depth - 1, true);
+
+        if (result.score < bestScore) {
+            bestScore = result.score;
+            bestCol = col;
+        }
+    }
+        return { col: bestCol, score: bestScore };
+    }
+}
+
 function handleClick(col) {
     if (!isValidCol(board, col)) return;
 
