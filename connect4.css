@@ -304,3 +304,37 @@ button.primary {
         opacity: 1; 
     }
 }
+
+.controls { 
+    display: flex; gap: 12px; 
+}
+
+.legend {
+    display: flex;
+    gap: 24px;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+}
+
+.legend-item { 
+    display: flex; 
+    align-items: center; 
+    gap: 8px; 
+}
+
+.legend-dot { 
+    width: 14px; 
+    height: 14px; 
+    border-radius: 50%; 
+}
+
+.legend-dot.player { 
+    background: var(--player); 
+    box-shadow: 0 0 8px var(--player-glow); 
+}
+
+.legend-dot.ai { 
+    background: var(--ai); 
+    box-shadow: 0 0 8px var(--ai-glow); 
+}
