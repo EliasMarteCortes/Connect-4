@@ -4,6 +4,10 @@ const PLAYER = 1;
 const AI = 2;
 
 let board = [];
+let gameOver = false;
+let playerTurn = true;
+let searchDepth = 3;
+let scores = { player: 0, ai: 0 };
 
 function createBoard() {
     let b = [];
@@ -183,45 +187,80 @@ function minimax(b, depth, maximizing) {
         let bestScore = -Infinity;
         let bestCol = validCols[0];
 
-    for (let i = 0; i < validCols.length; i++) {
-        let col = validCols[i];
-        let row = getOpenRow(b, col);
+        for (let i = 0; i < validCols.length; i++) {
+            let col = validCols[i];
+            let row = getOpenRow(b, col);
 
-        let boardCopy = b.map(r => [...r]);
-        placePiece(boardCopy, row, col, AI);
+            let boardCopy = b.map(r => [...r]);
+            placePiece(boardCopy, row, col, AI);
 
-        let result = minimax(boardCopy, depth - 1, false);
+            let result = minimax(boardCopy, depth - 1, false);
 
-        if (result.score > bestScore) {
-            bestScore = result.score;
-            bestCol = col;
+            if (result.score > bestScore) {
+                bestScore = result.score;
+                bestCol = col;
+            }
         }
-    }
-    return { col: bestCol, score: bestScore };
+        return { col: bestCol, score: bestScore };
 
     } else {
         let bestScore = Infinity;
         let bestCol = validCols[0];
 
-    for (let i = 0; i < validCols.length; i++) {
-        let col = validCols[i];
-        let row = getOpenRow(b, col);
+        for (let i = 0; i < validCols.length; i++) {
+            let col = validCols[i];
+            let row = getOpenRow(b, col);
 
-        let boardCopy = b.map(r => [...r]);
-        placePiece(boardCopy, row, col, PLAYER);
+            let boardCopy = b.map(r => [...r]);
+            placePiece(boardCopy, row, col, PLAYER);
 
-        let result = minimax(boardCopy, depth - 1, true);
+            let result = minimax(boardCopy, depth - 1, true);
 
-        if (result.score < bestScore) {
-            bestScore = result.score;
-            bestCol = col;
+            if (result.score < bestScore) {
+                bestScore = result.score;
+                bestCol = col;
+            }
         }
-    }
         return { col: bestCol, score: bestScore };
     }
 }
 
+function setStatus(msg, cls) {
+    let el = document.getElementById('status');
+    el.innerHTML = msg;
+    el.className = 'status-bar ' + (cls || '');
+}
+
+function updateScores() {
+    document.getElementById('player-score').textContent = scores.player;
+    document.getElementById('ai-score').textContent = scores.ai;
+}
+
+function setActiveCard(who) {
+    let playerCard = document.getElementById('player-card');
+    let aiCard = document.getElementById('ai-card');
+
+    if (who === 'player') {
+        playerCard.className = 'score-card active-player';
+        aiCard.className = 'score-card';
+    } else {
+        playerCard.className = 'score-card';
+        aiCard.className = 'score-card active-ai';
+    }
+}
+
+function startGame() {
+    board = createBoard();
+    gameOver = false;
+    playerTurn = true;
+    renderBoard();
+    setStatus('YOUR TURN', 'player-turn');
+    setActiveCard('player');
+    document.getElementById('board').classList.remove('locked');
+}
+
 function handleClick(col) {
+    if (!playerTurn || gameOver) return;
     if (!isValidCol(board, col)) return;
 
     let row = getOpenRow(board, col);
@@ -230,9 +269,54 @@ function handleClick(col) {
 
     let win = checkWinner(board, PLAYER);
     if (win) {
+        scores.player++;
+        updateScores();
         renderBoard(win);
-        alert('You win!');
+        setStatus('YOU WIN!', 'win');
+        gameOver = true;
+        document.getElementById('board').classList.add('locked');
+        return;
     }
+
+    if (getValidColumns(board).length === 0) {
+        setStatus("DRAW!", 'win');
+        gameOver = true;
+        document.getElementById('board').classList.add('locked');
+        return;
+    }
+
+    playerTurn = false;
+    setActiveCard('ai');
+    setStatus('<span class="thinking-dots">AI THINKING<span>.</span><span>.</span><span>.</span></span>', 'thinking');
+    document.getElementById('board').classList.add('locked');
+
+    setTimeout(function() {
+        let result = minimax(board, searchDepth, true);
+        let aiRow = getOpenRow(board, result.col);
+        placePiece(board, aiRow, result.col, AI);
+        renderBoard();
+
+        let aiWin = checkWinner(board, AI);
+        if (aiWin) {
+            scores.ai++;
+            updateScores();
+            renderBoard(aiWin);
+            setStatus('AI WINS!', 'win');
+            gameOver = true;
+            return;
+        }
+
+        if (getValidColumns(board).length === 0) {
+            setStatus("DRAW!", 'win');
+            gameOver = true;
+            return;
+        }
+
+        playerTurn = true;
+        setActiveCard('player');
+        setStatus('YOUR TURN', 'player-turn');
+        document.getElementById('board').classList.remove('locked');
+    }, 50);
 }
 
 document.getElementById('board').addEventListener('click', function(e) {
@@ -241,5 +325,7 @@ document.getElementById('board').addEventListener('click', function(e) {
     handleClick(parseInt(cell.dataset.col));
 });
 
-board = createBoard();
-renderBoard();
+document.getElementById('restart-btn').addEventListener('click', startGame);
+
+updateScores();
+startGame();
